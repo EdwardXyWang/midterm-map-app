@@ -14,5 +14,9 @@ module.exports = (knex) => {
     });
   });
 
+  router.get("/:userid", (req, res) => {
+
+  });
+
   return router;
 }
