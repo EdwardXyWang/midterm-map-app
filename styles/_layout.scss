@@ -1,6 +1,11 @@
+html {
+  height: 100%;
+}
+
 body {
   background-color: $main-background;
-  padding-top: $navbar-height;
+  height: 100%;
+  padding-top: $navbar-height + $global-padding;
 
   h1 {
     color: #244751;
