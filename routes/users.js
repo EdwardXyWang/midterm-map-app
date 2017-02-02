@@ -34,7 +34,7 @@ module.exports = (knex) => {
   // toggle existence of user/map favourite
   router.post("/:user_id/favourites", (req, res) => {
     knex
-      .select(*)
+      .select("*")
       .from("favourites")
       .where("user_id", req.params.user_id).andWhere("map_id", req.body.map_id)
       .then((results) => {
