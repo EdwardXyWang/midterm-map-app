@@ -6,5 +6,10 @@ $main-background: #EEE;
 
 $navbar-height: 50px;
 
+$global-padding: 10px;
+
 // Layout
 @import "layout";
+
+// Nav
+@import "nav";
