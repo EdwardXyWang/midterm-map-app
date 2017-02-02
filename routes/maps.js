@@ -55,7 +55,7 @@ module.exports = (knex) => {
         description: req.body.description,
         image: req.body.image,
         point_title: req.body.title,
-        map_id: req.params.map_id
+        map_id: req.params.map_id,
         created_by: req.session.user_id
     });
   });
