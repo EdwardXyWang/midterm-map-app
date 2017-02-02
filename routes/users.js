@@ -17,7 +17,7 @@ module.exports = (knex) => {
 
   // render user profile page
   router.get("/:user_id", (req, res) => {
-    res.render("user");
+    res.render("profile");
   });
 
   // return list of user's favourites
