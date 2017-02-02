@@ -14,39 +14,78 @@ module.exports = (knex) => {
     });
   });
 
-  router.get("/maps", (req, res) => {
-
+  // return all points and title for a specific map
+  router.get("/:map_id", (req, res) => {
+    knex
+      .select("*")
+      .from("points")
+      .innerjoin("maps", "points.map_id", "maps.id")
+      .where("points.map_id", req.params.map_id)
+      .then((results) => {
+        res.json(results);
+    });
   });
 
-  router.get("/maps/:mapid", (req, res) => {
-
+  // return all info for one selected point
+  router.get("/:map_id/:point_id", (req, res) => {
+    knex
+      .select("*")
+      .from("points")
+      .where("id", req.params.point_id)
+      .then((results) => {
+        res.json(results);
+    });
   });
 
-  router.get("/maps/:mapid/:pointid", (req, res) => {
-
+  // create a new empty map object with given title
+  router.post("/", (req, res) => {
+    knex("maps")
+      .insert({
+        map_title: req.body.map_title,
+        created_by: req.session.user_id
+    });
   });
 
-  router.post("/maps", (req, res) => {
-
+  // create a new point associated with this map_id
+  router.post("/:map_id", (req, res) => {
+    knex("points")
+      .insert({
+        lat: req.body.lat,
+        long: req.body.long,
+        description: req.body.description,
+        image: req.body.image,
+        point_title: req.body.title,
+        map_id: req.params.map_id
+        created_by: req.session.user_id
+    });
   });
 
-  router.post("/maps/:mapid", (req, res) => {
-
+  // router.delete(), delete a specific map by map_id
+  router.post("/:map_id/delete", (req, res) => {
+    knex("maps")
+      .where("id", req.params.map_id)
+      .del();
   });
 
-  // router.delete()
-  router.post("/maps/:mapid/delete", (req, res) => {
-
+  // router.put(), update a specific point
+  router.post("/:map_id/:point_id", (req, res) => {
+    knex("points")
+      .where("id", req.params.point_id)
+      .update({
+        lat: req.body.lat,
+        long: req.body.long,
+        description: req.body.description,
+        image: req.body.image,
+        point_title: req.body.title,
+        map_id: req.params.map_id
+    });
   });
 
-  // router.put()
-  router.post("/maps/:mapid/:pointid", (req, res) => {
-
-  });
-
-  // router.delete()
-  router.post("/maps/:mapid/:pointid/delete", (req, res) => {
-
+  // router.delete(), delete a specific point by point_id
+  router.post("/:map_id/:point_id/delete", (req, res) => {
+    knex("points")
+      .where("id", req.params.point_id)
+      .del();
   });
 
   return router;
