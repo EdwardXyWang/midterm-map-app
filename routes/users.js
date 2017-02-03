@@ -17,7 +17,18 @@ module.exports = (knex) => {
 
   // render user profile page
   router.get("/:user_id", (req, res) => {
-    res.render("profile");
+    knex
+      .select("first_name", "last_name")
+      .from("users")
+      .where("id", req.params.user_id)
+      .then((results) => {
+        let fname = results[0].first_name;
+        let lname = results[0].last_name;
+        res.render("profile", {
+          fname: fname,
+          lname: lname
+        });
+      })
   });
 
   // return list of user's maps
@@ -54,7 +65,6 @@ module.exports = (knex) => {
       .select()
       .where("user_id", req.params.user_id)
       .then((results) => {
-        console.log(res.json(results));
         res.json(results);
     });
   });

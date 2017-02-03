@@ -1,6 +1,17 @@
 $(() => {
 
   const pathname = window.location.pathname;
+  //  //Accesses user's first name and last name
+  //   $.ajax({
+  //   method: "GET",
+  //   url: pathname
+  // }).done((names) => {
+  //   for(name of names) {
+  //     $("<h4>")text(name.first_name + " " + name.last_name).addClass("list-group-item").appendTo($(".map-list"));
+  //   }
+  // });
+
+  //Accesses list of maps that user has created
   $.ajax({
     method: "GET",
     url: pathname + "/maps"
@@ -10,7 +21,7 @@ $(() => {
     }
   });
 
-
+   //Accesses list of maps that user has contributed to
    $.ajax({
     method: "GET",
     url: pathname + "/contributions"
@@ -20,7 +31,7 @@ $(() => {
     }
   });
 
-
+     //Accesses list of user's favoutite maps
      $.ajax({
     method: "GET",
     url: pathname + "/favourites"
