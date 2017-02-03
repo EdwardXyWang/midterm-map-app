@@ -47,11 +47,14 @@ module.exports = (knex) => {
 
   // return list of user's favourites
   router.get("/:user_id/favourites", (req, res) => {
-    knex
-      .select("map_id")
-      .from("favourites")
+    knex("users")
+      .join("favourites", "users.id", "user_id")
+      .join("maps", "map_id", "maps.id")
+      .distinct("map_title", "maps.id")
+      .select()
       .where("user_id", req.params.user_id)
       .then((results) => {
+        console.log(res.json(results));
         res.json(results);
     });
   });
@@ -63,7 +66,6 @@ module.exports = (knex) => {
       .from("favourites")
       .where("user_id", req.params.user_id).andWhere("map_id", req.body.map_id)
       .then((results) => {
-        console.log(results);
     });
   });
 

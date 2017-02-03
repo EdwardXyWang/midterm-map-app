@@ -15,9 +15,18 @@ $(() => {
     method: "GET",
     url: pathname + "/contributions"
   }).done((contributions) => {
-    console.log(contributions);
     for(contribution of contributions) {
       $("<a>").attr("href", "#").text(contribution.map_title).addClass("list-group-item").appendTo($(".map-contributions"));
+    }
+  });
+
+
+     $.ajax({
+    method: "GET",
+    url: pathname + "/favourites"
+  }).done((favourites) => {
+    for(favourite of favourites) {
+      $("<a>").attr("href", "#").text(favourite.map_title).addClass("list-group-item").appendTo($(".map-favourites"));
     }
   });
 
