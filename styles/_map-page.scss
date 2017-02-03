@@ -1,6 +1,9 @@
 .map-page-views {
 
   .maps-pane {
+    &.hide-pane {
+      display: none;
+    }
 
     .new-map {
       padding: $global-padding 0;
@@ -12,14 +15,23 @@
   }
 
   .point-detail-pane {
-    &.hidden {
-      display: hidden;
+    &.hide-pane {
+      display: none;
     }
   }
 
   .points-pane {
-    &.hidden {
-      display: hidden;
+    &.hide-pane {
+      display: none;
     }
   }
+}
+
+#modal-map {
+  height: 300px;
+  overflow:visible;
+}
+
+.pac-container {
+  z-index: 1051;
 }
