@@ -8,7 +8,9 @@ exports.seed = function(knex, Promise) {
       return Promise.all([
         // Inserts seed entries
         knex("maps").insert({map_title: "Sushi Restaurants", created_by: 1}),
-        knex("maps").insert({map_title: "Gift Shops", created_by: 2})
+        knex("maps").insert({map_title: "Gift Shops", created_by: 2}),
+        knex("maps").insert({map_title: "Poke Stops", created_by: 1}),
+        knex("maps").insert({map_title: "Gyms", created_by: 2})
       ]);
     });
 };

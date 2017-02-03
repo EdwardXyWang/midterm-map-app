@@ -16,7 +16,11 @@ exports.seed = function(knex, Promise) {
         knex("points").insert({id: 5, lat: 49.284, long: -123.105, description: "Test five",
           image: "http://www.fillmurray.com/200/200", point_title: "Five", map_id: 2, created_by: 2}),
         knex("points").insert({id: 6, lat: 49.285, long: -123.104, description: "Test six",
-          image: "http://www.fillmurray.com/200/200", point_title: "Six", map_id: 2, created_by: 2})
+          image: "http://www.fillmurray.com/200/200", point_title: "Six", map_id: 2, created_by: 2}),
+        knex("points").insert({id: 7, lat: 49.286, long: -123.106, description: "Test seven",
+          image: "http://www.fillmurray.com/200/200", point_title: "Seven", map_id: 3, created_by: 2}),
+        knex("points").insert({id: 8, lat: 49.287, long: -123.105, description: "Test eight",
+          image: "http://www.fillmurray.com/200/200", point_title: "Eight", map_id: 4, created_by: 1})
       ]);
     });
 };

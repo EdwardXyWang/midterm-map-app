@@ -32,11 +32,13 @@ module.exports = (knex) => {
   });
 
   // return list of maps that user has contributed to
-  router.get("/:user_id/contributed", (req, res) => {
-    knex
-      .select("map_title")
-      .from("maps")
-      .where("created_by", req.params.user_id)
+  router.get("/:user_id/contributions", (req, res) => {
+    knex("users")
+      .join("points", "users.id", "points.created_by")
+      .join("maps", "map_id", "maps.id")
+      .distinct("map_title", "maps.id")
+      .select()
+      .where("points.created_by", req.params.user_id)
       .then((results) => {
         res.json(results);
     });
