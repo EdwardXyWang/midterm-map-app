@@ -21,29 +21,41 @@
 
   <body>
     <% include partials/_navbar %>
-    <div class="container-fluid main-views">
+    <div class="container-fluid map-page-views">
       <div class="row">
         <div class="col-xs-3">
-          <div class="new-map">
-            <form>
-              <div class="input-group">
-                <input type="text" class="form-control" name="map_title" placeholder="Title">
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button">Create Map!</button>
-                </span>
-              </div>
-            </form>
-          </div>
-          <div class="list-group">
-            <button type="button" class="list-group-item">Map List 1</button>
-            <button type="button" class="list-group-item">Dapibus ac facilisis in</button>
-            <button type="button" class="list-group-item">Morbi leo risus</button>
-            <button type="button" class="list-group-item">Porta ac consectetur ac</button>
-            <button type="button" class="list-group-item">Vestibulum at eros</button>
-          </div>
+
+          <section class="maps-pane">
+            <div class="new-map">
+              <form>
+                <div class="input-group">
+                  <input type="text" class="form-control" name="map_title" placeholder="Title">
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">Create Map!</button>
+                  </span>
+                </div>
+              </form>
+            </div>
+            <div class="list-group map-list">
+              <!-- MAP LIST GENERATED HERE -->
+            </div>
+          </section>
+
+          <section class="points-pane hidden">
+            <div class="list-group points-list">
+              <!-- POINTS LIST GENERATED HERE -->TEST TEST
+            </div>
+          </section>
+
+          <section class="point-detail-pane hidden">
+
+          </section>
+
         </div>
         <div class="col-xs-9">
-          Test
+          <div class="map-box">
+            <!-- PUT GOOGLE MAP HERE -->MAP GOES HERE
+          </div>
         </div>
       </div>
     </div>
