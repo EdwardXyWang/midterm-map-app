@@ -8,10 +8,11 @@
     .new-map {
       padding: $global-padding 0;
     }
+  }
 
-    .map-box {
-      padding: $global-padding 0;
-    }
+  .map-box {
+    padding: $global-padding 0;
+    height: 570px;
   }
 
   .point-detail-pane {
