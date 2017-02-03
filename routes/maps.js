@@ -19,7 +19,7 @@ module.exports = (knex) => {
     knex
       .select("*")
       .from("points")
-      .innerjoin("maps", "points.map_id", "maps.id")
+      .innerJoin("maps", "points.map_id", "maps.id")
       .where("points.map_id", req.params.map_id)
       .then((results) => {
         res.json(results);
