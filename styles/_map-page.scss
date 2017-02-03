@@ -1,0 +1,25 @@
+.map-page-views {
+
+  .maps-pane {
+
+    .new-map {
+      padding: $global-padding 0;
+    }
+
+    .map-box {
+      padding: $global-padding 0;
+    }
+  }
+
+  .point-detail-pane {
+    &.hidden {
+      display: hidden;
+    }
+  }
+
+  .points-pane {
+    &.hidden {
+      display: hidden;
+    }
+  }
+}
