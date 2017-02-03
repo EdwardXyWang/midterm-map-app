@@ -11,7 +11,8 @@ $(() => {
 
 
   $(".map-list").on("click", "a", function () {
-    $(".maps-pane").addClass("hidden");
-    $(".points-pane").removeClass("hidden");
+    $(".maps-pane").addClass("hide-pane");
+    $(".points-pane").removeClass("hide-pane");
   });
+
 });
