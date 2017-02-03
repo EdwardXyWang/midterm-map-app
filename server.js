@@ -39,7 +39,7 @@ app.use("/styles", sass({
 
 app.use(cookieSession({
   name: "session",
-  keys: ["secrettt"]
+  keys: [process.env.SESSION_SECRET || 'development']
 }))
 
 app.use(express.static("public"));
@@ -56,7 +56,7 @@ app.use("/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { API_KEY : process.env.GOOGLE_API });
 });
 
 app.post("/login", (req, res) => {
