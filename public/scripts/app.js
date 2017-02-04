@@ -9,7 +9,28 @@ $(() => {
     }
   });
 
-    $(".map-list").on("click", "a", function () {
+  // show the map in main page
+  function initMap() {
+    let geocoder = new google.maps.Geocoder();
+    const location = "Vancouver";
+    geocoder.geocode({'address': location}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var lat = results[0].geometry.location.lat();
+        var lng = results[0].geometry.location.lng();
+        var latlng = {lat: lat, lng: lng};
+        map = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
+          center: latlng,
+          zoom: 11
+        });
+      } else {
+        alert("Could not find location: " + location);
+      }
+    });
+  }
+  initMap();
+
+  // click the list
+  $(".map-list").on("click", "a", function () {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
@@ -25,7 +46,6 @@ $(() => {
       }
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
     });
-
   });
 
   var map;
@@ -46,26 +66,6 @@ $(() => {
       callback(coordinates);
     });
   }// end of getListMapCoordinates
-
-  // show the map in main page
-  function initMap() {
-    let geocoder = new google.maps.Geocoder();
-    const location = "Vancouver";
-    geocoder.geocode({'address': location}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        var lat = results[0].geometry.location.lat();
-        var lng = results[0].geometry.location.lng();
-        var latlng = {lat: lat, lng: lng};
-        map = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
-          center: latlng,
-          zoom: 11
-        });
-      } else {
-        alert("Could not find location: " + location);
-      }
-    });
-  }
-  initMap();
 
   // show map when click the list
   function showListMap(coordinates) {
