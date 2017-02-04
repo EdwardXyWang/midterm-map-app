@@ -1,5 +1,20 @@
+//const pointInfo = require("./points-info.js");
+  //Creates thumbnail with point specific info
+  function createPointInfo (pInfo) {
+    const $thumbnail = $("<div>").addClass("thumbnail");
+    const $img = $("<img>").attr("src", pInfo.image).addClass("img-thumbnail");
+    const $caption = $("<div>").addClass("<caption>");
+    const $thumnailLabel = $("<h3>").text("Title: " + pInfo.point_title);
+    const $description = $("<p>").text("Description: " + pInfo.description);
+    $caption.append($thumnailLabel, $description);
+    $thumbnail.append($img, $caption);
+    $(".point-detail-pane").append($thumbnail);
+  }
+
+
 $(() => {
 
+  //Displays list of maps
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -9,11 +24,11 @@ $(() => {
     }
   });
 
+    //Displays list of points for a specific map
     $(".map-list").on("click", "a", function () {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
-    console.log(map_id);
     getListMapCoordinates(map_id, showListMap);
 
     $.ajax({
@@ -21,11 +36,26 @@ $(() => {
       url: "/maps/" + map_id
     }).done((points) => {
       for(point of points) {
-      $("<a>").attr("href", "#").text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+      $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
       }
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
     });
+  });
 
+    //Displays information for a specific point
+    $(".points-list").on("click", "a", function () {
+    $(".points-pane").addClass("hide-pane");
+    $(".point-detail-pane").removeClass("hide-pane");
+    const map_id = $(this).data().mapId;
+    const point_id = $(this).data().pointId;
+
+    $.ajax({
+      method: "GET",
+      url: "/maps/" + map_id + "/" + point_id
+    }).done((info) => {
+      console.log(info[0].point_title);
+      createPointInfo(info[0]);
+    });
   });
 
   var map;
