@@ -32,9 +32,11 @@ module.exports = (knex) => {
   // return all info for one selected point
   router.get("/:map_id/:point_id", (req, res) => {
     knex
-      .select("*")
-      .from("points")
-      .where("id", req.params.point_id)
+      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name")
+      .from("users")
+      .join("maps", "users.id", "maps.created_by")
+      .join("points", "maps.id", "map_id")
+      .where("points.id", req.params.point_id)
       .then((results) => {
         res.json(results);
     });

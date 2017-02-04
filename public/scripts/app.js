@@ -1,16 +1,10 @@
-//const pointInfo = require("./points-info.js");
   //Creates thumbnail with point specific info
-  function createPointInfo (pInfo) {
-    const $thumbnail = $("<div>").addClass("thumbnail");
-    const $img = $("<img>").attr("src", pInfo.image).addClass("img-thumbnail");
-    const $caption = $("<div>").addClass("<caption>");
-    const $thumnailLabel = $("<h3>").text("Title: " + pInfo.point_title);
-    const $description = $("<p>").text("Description: " + pInfo.description);
-    $caption.append($thumnailLabel, $description);
-    $thumbnail.append($img, $caption);
-    $(".point-detail-pane").append($thumbnail);
+  function populatePointInfo (pInfo) {
+    $(".img-thumbnail").attr("src", pInfo.image);
+    $(".thumbnail-title").text("Point title: " + pInfo.point_title);
+    $(".description").text("Description: " + pInfo.description);
+    $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
   }
-
 
 $(() => {
 
@@ -53,8 +47,7 @@ $(() => {
       method: "GET",
       url: "/maps/" + map_id + "/" + point_id
     }).done((info) => {
-      console.log(info[0].point_title);
-      createPointInfo(info[0]);
+      populatePointInfo(info[0]);
     });
   });
 
