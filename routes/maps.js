@@ -3,6 +3,8 @@
 const express = require('express');
 const router  = express.Router();
 
+const bodyParser  = require("body-parser");
+
 module.exports = (knex) => {
 
   router.get("/", (req, res) => {
@@ -17,8 +19,10 @@ module.exports = (knex) => {
   // return all points and title for a specific map
   router.get("/:map_id", (req, res) => {
     knex
-      .select("*")
-      .from("points")
+      .select("users.first_name", "users.last_name", "point_title", "lat", "long")
+      .from("users")
+      .join("maps", "users.id", "maps.created_by")
+      .join("points", "maps.id", "map_id")
       .where("points.map_id", req.params.map_id)
       .then((results) => {
         res.json(results);
@@ -56,6 +60,9 @@ module.exports = (knex) => {
         point_title: req.body.title,
         map_id: req.params.map_id,
         created_by: req.session.user_id
+    }).then((results) => {
+      console.log("inserted!");
+      res.status(200).send();
     });
   });
 
