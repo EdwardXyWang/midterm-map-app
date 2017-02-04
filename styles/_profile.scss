@@ -1,12 +1,23 @@
-.row-centered {
-    text-align:center;
-}
+.profile-page {
+  .col-centered {
+      display:inline-block;
+      float:none;
+      /* reset the text-align */
+      text-align:left;
+      /* inline-block space fix */
+      margin-right:-4px;
+  }
 
-.col-centered {
-    display:inline-block;
-    float:none;
-    /* reset the text-align */
-    text-align:left;
-    /* inline-block space fix */
-    margin-right:-4px;
+  .list-holder {
+    padding: $global-padding;
+    background-color: #FFF;
+  }
+
+  .list-group {
+    padding: 0 $global-padding;
+  }
+
+  .col-centered {
+      vertical-align: top;
+  }
 }

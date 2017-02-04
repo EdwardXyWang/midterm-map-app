@@ -47,16 +47,12 @@ $(() => {
       method: "GET",
       url: "/maps/" + map_id
     }).done((points) => {
-      if(points[0]){
-        console.log('imhere');
+      if (points[0].lat) {
         for(point of points) {
           $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
         }
-        $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
-      } else{
-        console.log('butimhere');
-        $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
       }
+      $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
     });
   }
 
@@ -89,6 +85,11 @@ $(() => {
       method: "GET",
       url: `/maps/${mapId}`
     }).done((res) => {
+      if (!res[0].lat) {
+        console.log(res);
+        return;
+      }
+
       let coordinates = [];
       for (let i = 0; i < res.length; i++) {
         coordinates.push({
