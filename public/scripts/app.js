@@ -1,8 +1,5 @@
 $(() => {
-<<<<<<< HEAD
 
-
-=======
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -12,10 +9,23 @@ $(() => {
     }
   });
 
-  $(".map-list").on("click", "a", function () {
+    $(".map-list").on("click", "a", function () {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
-    getListMapCoordinates($(this).data("mapId"), showListMap);
+    const map_id = $(this).data().mapId;
+    console.log(map_id);
+    getListMapCoordinates(map_id, showListMap);
+
+    $.ajax({
+      method: "GET",
+      url: "/maps/" + map_id
+    }).done((points) => {
+      for(point of points) {
+      $("<a>").attr("href", "#").text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+      }
+      $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
+    });
+
   });
 
   var map;
@@ -82,6 +92,5 @@ $(() => {
           }).setAnimation(google.maps.Animation.DROP);
     };
   }// end of showListMap
->>>>>>> 23da99f8bbb2afc118c7f0bb0219c4a8b7657029
 
 });

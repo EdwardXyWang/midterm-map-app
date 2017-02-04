@@ -19,18 +19,12 @@ module.exports = (knex) => {
   // return all points and title for a specific map
   router.get("/:map_id", (req, res) => {
     knex
-<<<<<<< HEAD
       .select("users.first_name", "users.last_name", "point_title", "lat", "long")
       .from("users")
       .join("maps", "users.id", "maps.created_by")
       .join("points", "maps.id", "map_id")
-=======
-      .select("*")
-      .from("points")
->>>>>>> 23da99f8bbb2afc118c7f0bb0219c4a8b7657029
       .where("points.map_id", req.params.map_id)
       .then((results) => {
-        console.log(results);
         res.json(results);
     });
   });
