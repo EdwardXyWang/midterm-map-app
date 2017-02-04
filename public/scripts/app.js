@@ -18,8 +18,30 @@ $(() => {
     }
   });
 
-    //Displays list of points for a specific map
-    $(".map-list").on("click", "a", function () {
+
+  // show the map in main page
+  function initMap() {
+    let geocoder = new google.maps.Geocoder();
+    const location = "Vancouver";
+    geocoder.geocode({'address': location}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var lat = results[0].geometry.location.lat();
+        var lng = results[0].geometry.location.lng();
+        var latlng = {lat: lat, lng: lng};
+        map = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
+          center: latlng,
+          zoom: 11,
+          maxZoom: 17
+        });
+      } else {
+        alert("Could not find location: " + location);
+      }
+    });
+  }
+  initMap();
+
+  // click the list
+  $(".map-list").on("click", "a", function () {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
@@ -70,50 +92,35 @@ $(() => {
     });
   }// end of getListMapCoordinates
 
-  // show the map in main page
-  function initMap() {
-    let geocoder = new google.maps.Geocoder();
-    const location = "Vancouver";
-    geocoder.geocode({'address': location}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        var lat = results[0].geometry.location.lat();
-        var lng = results[0].geometry.location.lng();
-        var latlng = {lat: lat, lng: lng};
-        map = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
-          center: latlng,
-          zoom: 11
-        });
-      } else {
-        alert("Could not find location: " + location);
-      }
-    });
-  }
-  initMap();
-
   // show map when click the list
   function showListMap(coordinates) {
-    let listCenter = {
-      lat: 0,
-      lng: 0
-    };
-    for(let coord of coordinates) {
-      listCenter['lat'] += coord['lat'];
-      listCenter['lng'] += coord['lng'];
-    };
-    listCenter['lat'] = listCenter['lat'] / coordinates.length;
-    listCenter['lng'] = listCenter['lng'] / coordinates.length;
-
-    var latlng = new google.maps.LatLng(listCenter['lat'], listCenter['lng']);
-    map.setCenter(latlng);
-    map.setZoom(11);
+    const markers = [];
+    const bounds = new google.maps.LatLngBounds();
 
     // make the markers
-    for (let coord of coordinates) {
-      new google.maps.Marker({
-            position: coord,
-            map: map
-          }).setAnimation(google.maps.Animation.DROP);
+    for (let i = 0; i < coordinates.length; i++) {
+      addMarkerWithTimeout(coordinates[i], i * 150);
+      window.setTimeout(function() {
+        if (i === coordinates.length - 1) {
+          map.fitBounds(bounds);
+        }
+      }, (i * 150) + 100);
     };
+
+    function addMarkerWithTimeout(position, timeout) {
+      window.setTimeout(function() {
+        const marker = new google.maps.Marker({
+          position: position,
+          map: map,
+          animation: google.maps.Animation.DROP
+        })
+
+        markers.push(marker);
+
+        bounds.extend(marker.getPosition());
+      }, timeout);
+    }
+
   }// end of showListMap
 
 });
