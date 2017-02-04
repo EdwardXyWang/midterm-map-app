@@ -1,5 +1,14 @@
+  //Creates thumbnail with point specific info
+  function populatePointInfo (pInfo) {
+    $(".img-thumbnail").attr("src", pInfo.image);
+    $(".thumbnail-title").text("Point title: " + pInfo.point_title);
+    $(".description").text("Description: " + pInfo.description);
+    $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
+  }
+
 $(() => {
 
+  //Displays list of maps
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -8,6 +17,7 @@ $(() => {
       $("<a>").data("mapId", map.id).attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
     }
   });
+
 
   // show the map in main page
   function initMap() {
@@ -35,7 +45,6 @@ $(() => {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
-    console.log(map_id);
     getListMapCoordinates(map_id, showListMap);
 
     $.ajax({
@@ -47,8 +56,22 @@ $(() => {
           $("<a>").attr("href", "#").text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
         }
       }
-
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
+    });
+  });
+
+    //Displays information for a specific point
+    $(".points-list").on("click", "a", function () {
+    $(".points-pane").addClass("hide-pane");
+    $(".point-detail-pane").removeClass("hide-pane");
+    const map_id = $(this).data().mapId;
+    const point_id = $(this).data().pointId;
+
+    $.ajax({
+      method: "GET",
+      url: "/maps/" + map_id + "/" + point_id
+    }).done((info) => {
+      populatePointInfo(info[0]);
     });
   });
 
