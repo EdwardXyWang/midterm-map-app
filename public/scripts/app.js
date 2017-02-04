@@ -1,5 +1,7 @@
 $(() => {
 
+  var map;
+
   $.ajax({
     method: "GET",
     url: "/maps"
@@ -35,21 +37,25 @@ $(() => {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
-    console.log(map_id);
     getListMapCoordinates(map_id, showListMap);
+    showMapPoints(map_id);
+  });
 
+  function showMapPoints(map_id) {
     $.ajax({
       method: "GET",
       url: "/maps/" + map_id
     }).done((points) => {
-      for(point of points) {
-      $("<a>").attr("href", "#").text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+      if(points.point_title){
+        for(point of points) {
+          $("<a>").attr("href", "#").text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+        }
+        $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
+      } else{
+        $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
       }
-      $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
     });
-  });
-
-  var map;
+  }
 
   // Click on .map-list, send a .ajax request to load the requested map
   function getListMapCoordinates(mapId, callback) {
@@ -107,13 +113,15 @@ $(() => {
         $('.maps-pane .alert').addClass('hide-class');
       }, 1400);
     } else {
-    var formData = $(this).serialize();
+      var formData = $(this).serialize();
       $.ajax({
         method: 'POST',
         url: '/maps',
         data: formData
-      }).done({
-
+      }).done(function (res) {
+        $(".maps-pane").addClass("hide-pane");
+        $(".points-pane").removeClass("hide-pane");
+        showMapPoints(res[0]);
       });
     }
   });
