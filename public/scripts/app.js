@@ -93,19 +93,23 @@ $(() => {
     };
   }// end of showListMap
 
-  $('.maps-pane .input-group').on('click', '.btn', function () {
-    if (!$.trim($(this).closest('.input-group').children('input').val())) {
+  $('.new-map form').on('submit', function (event) {
+    event.preventDefault();
+    if (!$.trim($(this).find('.input-group input').val())) {
       $(this).closest('.maps-pane').find('.alert').removeClass('hide-class');
       setTimeout(function () {
         $('.maps-pane .alert').addClass('hide-class');
       }, 1400);
     } else {
+    var formData = $(this).serialize();
+      $.ajax({
+        method: 'POST',
+        url: '/maps',
+        data: formData
+      }).done({
 
+      });
     }
   });
-
-
-
-
 
 });
