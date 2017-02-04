@@ -84,8 +84,6 @@ $(() => {
     }).then(function () {
       console.log("Inserted!");
     });
-
-    console.log(formData);
-  })
+  });
 
 });
