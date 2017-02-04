@@ -79,4 +79,19 @@ $(() => {
     };
   }// end of showListMap
 
+  $('.maps-pane .input-group').on('click', '.btn', function () {
+    if (!$.trim($(this).closest('.input-group').children('input').val())) {
+      $(this).closest('.maps-pane').find('.alert').removeClass('hide-class');
+      setTimeout(function () {
+        $('.maps-pane .alert').addClass('hide-class');
+      }, 1500);
+    } else {
+
+    }
+  });
+
+
+
+
+
 });
