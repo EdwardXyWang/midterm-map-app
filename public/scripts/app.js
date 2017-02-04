@@ -84,7 +84,7 @@ $(() => {
       $(this).closest('.maps-pane').find('.alert').removeClass('hide-class');
       setTimeout(function () {
         $('.maps-pane .alert').addClass('hide-class');
-      }, 1500);
+      }, 1400);
     } else {
 
     }
