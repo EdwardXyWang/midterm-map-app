@@ -53,15 +53,15 @@ $(() => {
     }).done((points) => {
       if (points[0].lat) {
         for(point of points) {
-          $("<a>").attr("href", "#").text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
         }
       }
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
     });
   });
 
-    //Displays information for a specific point
-    $(".points-list").on("click", "a", function () {
+  //Displays information for a specific point
+  $(".points-list").on("click", "a", function () {
     $(".points-pane").addClass("hide-pane");
     $(".point-detail-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
