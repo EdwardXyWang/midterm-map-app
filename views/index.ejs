@@ -50,12 +50,18 @@
 
           <section class="point-detail-pane hide-pane">
             <!-- SPECIFIC POINT DETAILS GENERATED HERE -->
+            <p>
+            <!-- EDIT AND DELETE POINT BUTTONS GO HERE -->
+            <button type="button" class="btn btn-default point-edit-btn" data-toggle="modal" data-target="#point-modal">
+              Edit
+            </button>
+            </p>
             <div class="thumbnail">
               <img class="img-thumbnail">
-              <div class="caption">
-              <h3 class="thumbnail-title"></h3>
-              <p class="description"></p>
-              <p class="point-created-by"></p>
+              <div class="caption text-center">
+                <h3 class="thumbnail-title"></h3>
+                <p class="description"></p>
+                <p class="point-created-by"></p>
               </div>
             </div>
           </section>
@@ -69,7 +75,7 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Add Point Modal -->
     <div class="modal fade" id="point-modal" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -95,7 +101,7 @@
                   </div>
                   <div class="form-group">
                     <label for="description" class="control-label">Description</label>
-                    <textarea class="form-control" name="description"></textarea>
+                    <textarea class="form-control" id="description" name="description"></textarea>
                   </div>
                 </form>
               </div>

@@ -4,6 +4,7 @@
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
     $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
+    $(".point-edit-btn").data("pointId", pInfo.id).data;
   }
 
 $(() => {
@@ -58,8 +59,8 @@ $(() => {
     });
   });
 
-    //Displays information for a specific point
-    $(".points-list").on("click", "a", function () {
+  //Displays information for a specific point
+  $(".points-list").on("click", "a", function () {
     $(".points-pane").addClass("hide-pane");
     $(".point-detail-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
