@@ -23,13 +23,12 @@ $(() => {
 
     if (pointToEditId) {
       submitUrl += "points/" + pointToEditId;
-      console.log(submitUrl);
       $(".modal-title").text("Edit Point");
       $(".submit-point").text("Update Point");
 
       $.ajax({
         method: "GET",
-        url: "/maps/" + "1" + "/" + pointToEditId
+        url: "/maps/points/" + pointToEditId
       }).done((info) => {
         $("#location").val(info[0].lat + ", " + info[0].long);
         $("#title").val(info[0].point_title);
