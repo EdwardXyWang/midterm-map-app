@@ -14,7 +14,7 @@ $(() => {
     method: "GET",
     url: "/maps"
   }).done((maps) => {
-    for(map of maps) {
+    for(let map of maps) {
       $("<a>").data("mapId", map.id).attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
     }
   });
@@ -73,6 +73,8 @@ $(() => {
       url: "/maps/" + map_id + "/" + point_id
     }).done((info) => {
       populatePointInfo(info[0]);
+      map.setCenter({ lat: info[0].lat, lng: info[0].long });
+      map.setZoom(17);
     });
   });
 
