@@ -64,7 +64,8 @@ $(() => {
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
     $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
-    $(".point-edit-btn").data("pointId", pInfo.id).data;
+    $(".point-edit-btn").data("pointId", pInfo.point_id).data;
+    $(".point-delete-btn").data("pointId", pInfo.point_id).data;
   }
 
   //Displays information for a specific point

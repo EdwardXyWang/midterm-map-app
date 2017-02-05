@@ -33,7 +33,7 @@ module.exports = (knex) => {
   // return all info for one selected point
   router.get("/points/:point_id", (req, res) => {
     knex
-      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name", "points.id")
+      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name", "points.id AS point_id")
       .from("users")
       .join("maps", "users.id", "maps.created_by")
       .join("points", "maps.id", "map_id")
@@ -100,7 +100,10 @@ module.exports = (knex) => {
   router.post("/points/:point_id/delete", (req, res) => {
     knex("points")
       .where("id", req.params.point_id)
-      .del();
+      .del().then(() => {
+        console.log("Point deleted!");
+        res.status(200).send();
+      });
   });
 
   return router;
