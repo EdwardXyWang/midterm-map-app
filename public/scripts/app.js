@@ -51,7 +51,7 @@ $(() => {
     }).done((points) => {
       if (points[0].lat) {
         for(point of points) {
-          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.point_id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
         }
       }
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
@@ -140,10 +140,7 @@ $(() => {
   $('.new-map form').on('submit', function (event) {
     event.preventDefault();
     if (!$.trim($(this).find('.input-group input').val())) {
-      $(this).closest('.maps-pane').find('.alert').removeClass('hide-class');
-      setTimeout(function () {
-        $('.maps-pane .alert').addClass('hide-class');
-      }, 1400);
+      $(this).closest('.maps-pane').find('.alert').toggleClass('hide-class');
     } else {
       var formData = $(this).serialize();
       $.ajax({
@@ -157,5 +154,10 @@ $(() => {
       });
     }
   });
+
+  $(".maps-pane .alert").on('close.bs.alert', function (event) {
+    event.preventDefault();
+    $(this).toggleClass("hide-class");
+  })
 
 });
