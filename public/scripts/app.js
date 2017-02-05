@@ -76,7 +76,7 @@ $(() => {
 
     $.ajax({
       method: "GET",
-      url: "/maps/" + map_id + "/" + point_id
+      url: "/maps/points/" + point_id
     }).done((info) => {
       populatePointInfo(info[0]);
       map.setCenter({ lat: info[0].lat, lng: info[0].long });
