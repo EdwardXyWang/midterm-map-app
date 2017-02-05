@@ -29,26 +29,36 @@
       <hr class="featurette-divider">
       <div class="row row-centered">
         <div class="col-md-3 col-centered">
-          <div class="list-holder">
-            <%=fname%>'s maps
-            <div class="list-group map-list">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><%=fname%>'s maps</h3>
+              </div>
+              <div class="panel-body list-group map-list">
+                <!--USER MAPS LIST GENERATED HERE -->
+              </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-centered col-md-offset-1">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Maps <%=fname%> has contributed to
+              </h3>
+            </div>
+            <div class="panel-body list-group map-contributions">
               <!--USER MAPS LIST GENERATED HERE -->
             </div>
           </div>
         </div>
         <div class="col-md-3 col-centered col-md-offset-1">
-          <div class="list-holder">
-            Maps <%=fname%> has contributed to
-            <div class="list-group map-contributions">
-              <!--LIST OF MAPS USER HAS CONTRIBUTED TO GENERATED HERE -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                <%=fname%>'s favourites
+              </h3>
             </div>
-          </div>
-        </div>
-        <div class="col-md-3 col-centered col-md-offset-1">
-          <div class="list-holder">
-            <%=fname%>'s favourites
-            <div class="list-group map-favourites">
-              <!--LIST OF USER'S FAVOURITE MAPS GENERATED HERE -->
+            <div class="panel-body list-group map-favourites">
+              <!--USER MAPS LIST GENERATED HERE -->
             </div>
           </div>
         </div>
