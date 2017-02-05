@@ -64,6 +64,7 @@ $(() => {
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
     $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
+    $(".point-edit-btn").data("pointId", pInfo.id).data;
   }
 
   //Displays information for a specific point
@@ -78,6 +79,8 @@ $(() => {
       url: "/maps/" + map_id + "/" + point_id
     }).done((info) => {
       populatePointInfo(info[0]);
+      map.setCenter({ lat: info[0].lat, lng: info[0].long });
+      map.setZoom(17);
     });
   });
 

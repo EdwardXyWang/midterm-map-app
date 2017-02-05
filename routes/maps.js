@@ -24,6 +24,7 @@ module.exports = (knex) => {
       .join("maps", "users.id", "maps.created_by")
       .leftOuterJoin("points", "maps.id", "map_id")
       .where("maps.id", req.params.map_id)
+      .orderBy("points.id")
       .then((results) => {
         res.json(results);
     });
@@ -32,7 +33,7 @@ module.exports = (knex) => {
   // return all info for one selected point
   router.get("/:map_id/:point_id", (req, res) => {
     knex
-      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name")
+      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name", "points.id")
       .from("users")
       .join("maps", "users.id", "maps.created_by")
       .join("points", "maps.id", "map_id")
@@ -89,6 +90,9 @@ module.exports = (knex) => {
         image: req.body.image,
         point_title: req.body.title,
         map_id: req.params.map_id
+    }).then((results) => {
+      console.log("updated!");
+      res.status(200).send();
     });
   });
 
