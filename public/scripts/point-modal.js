@@ -1,7 +1,8 @@
 $(() => {
   var map, searchBox;
   var markers = [];
-  var submitUrl = "/maps/1/";
+  var submitUrl = "";
+  var pointToEditId;
 
   function initMap() {
     var vancouver = {lat: 49.261, lng: -123.123};
@@ -16,11 +17,13 @@ $(() => {
   }
 
 
-
   $('#point-modal').on('show.bs.modal', function() {
-    var pointToEditId = $(".point-edit-btn").data().pointId;
+    pointToEditId = $(".point-edit-btn").data().pointId;
+    submitUrl = "/maps/";
+
     if (pointToEditId) {
-      submitUrl += pointToEditId;
+      submitUrl += "points/" + pointToEditId;
+      console.log(submitUrl);
       $(".modal-title").text("Edit Point");
       $(".submit-point").text("Update Point");
 
@@ -50,8 +53,10 @@ $(() => {
       bounds: defaultBounds
     });
 
-
     searchBox.addListener("places_changed", function () {
+
+      console.log("places_changed");
+
       for (let marker of markers) {
         marker.setMap(null);
       }
@@ -80,6 +85,22 @@ $(() => {
       markers.push(marker);
 
     })
+
+
+    if (pointToEditId) {
+      const location = $(".modal-form #location").val().split(", ");
+      const latlng = new google.maps.LatLng(location[0], location[1]);
+      map.setCenter(latlng);
+      var marker = new google.maps.Marker({
+        map: map,
+        position: latlng
+      });
+
+      map.setCenter(marker.getPosition());
+
+      markers.push(marker);
+    }
+
   });
 
   $("#point-modal").on("hidden.bs.modal", function() {
