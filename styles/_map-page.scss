@@ -1,7 +1,13 @@
 .map-page-views {
 
+  li {
+    &.hide-class {
+      display: none;
+    }
+  }
+
   .maps-pane {
-    &.hide-pane {
+    &.hide-class {
       display: none;
     }
 
@@ -16,13 +22,13 @@
   }
 
   .point-detail-pane {
-    &.hide-pane {
+    &.hide-class {
       display: none;
     }
   }
 
   .points-pane {
-    &.hide-pane {
+    &.hide-class {
       display: none;
     }
   }

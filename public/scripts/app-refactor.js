@@ -1,29 +1,12 @@
 $(() => {
   // Variable declarations
-  var map;
+  var googleMap;
+  var markers = [];
 
   // Function definitions
 
-  function viewMapPane () {
-    $(".maps-pane").removeClass("hide-pane");
-    $(".point-detail-pane").addClass("hide-pane");
-    $(".points-pane").addClass("hide-pane");
-  }
-
-  function viewPointsPane () {
-    $(".maps-pane").addClass("hide-pane");
-    $(".point-detail-pane").addClass("hide-pane");
-    $(".points-pane").removeClass("hide-pane");
-  }
-
-  function viewPointDetailPane () {
-    $(".maps-pane").addClass("hide-pane");
-    $(".point-detail-pane").removeClass("hide-pane");
-    $(".points-pane").addClass("hide-pane");
-  }
-
   // Displays list of maps
-  function getMapList (done) {
+  function getMapList(done) {
     $.ajax({
       method: "GET",
       url: "/maps"
@@ -32,13 +15,81 @@ $(() => {
     });
   }
 
-  function getPointsList (map_id, done) {
+  function generateMapList(maps) {
+    for(map of maps) {
+      $("<a>").data("mapId", map.id).data("mapTitle", map.map_title).attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
+    }
+  }
+
+  function getPointsList(map_id, done) {
     $.ajax({
       method: "GET",
       url: "/maps/" + map_id
     }).done((points) => {
       done(points);
     });
+  }
+
+  function generatePointList(points) {
+    if (points[0].lat) {
+      for(point of points) {
+        $("<a>").attr("href", "#").data("mapId", point.map_id).data("pointId", point.point_id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+      }
+    }
+    $("<div>").addClass("created").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".points-pane .panel-body"));
+  };
+
+  function viewMapsPane() {
+    $(".maps-pane").removeClass("hide-class");
+    $(".point-detail-pane").addClass("hide-class");
+    $(".points-pane").addClass("hide-class");
+    $(".points-crumb").addClass("hide-class");
+    $(".pdetail-crumb").addClass("hide-class");
+
+    // Create maps list in the sidebar
+    clearMapsList();
+    getMapList(generateMapList);
+    clearMarkers(markers);
+    googleMap.setZoom(11);
+  }
+
+  function viewPointsPane(map_id) {
+    $(".maps-pane").addClass("hide-class");
+    $(".point-detail-pane").addClass("hide-class");
+    $(".points-pane").removeClass("hide-class");
+    $(".points-crumb").removeClass("hide-class");
+    $(".pdetail-crumb").addClass("hide-class");
+
+    // Create the points list in the sidebar
+    clearPointsList();
+    getPointsList(map_id, generatePointList);
+  }
+
+  function viewPointDetailPane() {
+    clearPointsList();
+    $(".maps-pane").addClass("hide-class");
+    $(".point-detail-pane").removeClass("hide-class");
+    $(".points-pane").addClass("hide-class");
+    $(".points-crumb").removeClass("hide-class");
+    $(".pdetail-crumb").removeClass("hide-class");
+  }
+
+  function clearMapsList() {
+    $(".map-list").empty();
+  }
+
+  function clearPointsList() {
+    $(".points-pane .points-list").empty().siblings(".created").remove();
+
+  }
+
+  // Creates thumbnail with point specific info
+  function populatePointInfo(pInfo) {
+    $(".img-thumbnail").attr("src", pInfo.image);
+    $(".thumbnail-title").text("Point title: " + pInfo.point_title);
+    $(".description").text("Description: " + pInfo.description);
+    $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
+    $(".point-edit-btn").data("pointId", pInfo.id).data;
   }
 
   // Google maps api functions
@@ -50,7 +101,7 @@ $(() => {
         var lat = results[0].geometry.location.lat();
         var lng = results[0].geometry.location.lng();
         var latlng = {lat: lat, lng: lng};
-        map = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
+        googleMap = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
           center: latlng,
           zoom: 11,
           maxZoom: 17
@@ -61,57 +112,43 @@ $(() => {
     });
   }
 
-  function generatePointsList(map_id) {
-    $.ajax({
-      method: "GET",
-      url: "/maps/" + map_id
-    }).done((points) => {
-      if (points[0].lat) {
-        for(point of points) {
-          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
-        }
-      }
-      $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
-    });
+  function clearMarkers(markers) {
+    for (let marker of markers) {
+      marker.setMap(null);
+    }
   }
 
   // Startup Actions
 
   initMap();
-
-  getMapList(function (maps) {
-    for(map of maps) {
-      $("<a>").data("mapId", map.id).data("mapTitle", map.map_title).attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
-    }
-  });
+  getMapList(generateMapList);
 
   // Event listeners
 
-  // click the list
+  $(".maps-crumb").on("click", function () {
+    viewMapsPane();
+  });
+
+  $(".points-crumb").on("click", function () {
+    viewPointsPane($(this).data().mapId);
+  });
+
+  $(".pdetail-crumb").on("click", function () {
+    viewPointDetailPane();
+  });
+
+  // Show list of points when clicking on a map title
   $(".map-list").on("click", "a", function () {
-    viewPointsPane();
-
-    const mapTitle = $(this).data('mapTitle');
-    const map_id = $(this).data().mapId;
-
+    const mapTitle = $(this).data().mapTitle;
     $(".points-pane .maps-title").text("Map Title: " + mapTitle);
+
+    const map_id = $(this).data().mapId;
+    $(".points-crumb").data("mapId", map_id);
+
+    viewPointsPane(map_id);
+
     getListMapCoordinates(map_id);
-    // addMarkersFromCoords();
 
-    // Add the points as markers to the map
-    // getPointsList(map_id, function(points) {
-
-    // });
-
-    // Create the points list in the sidebar
-    getPointsList(map_id, function(points) {
-      if (points[0].lat) {
-        for(point of points) {
-          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.point_id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
-        }
-      }
-      $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
-    });
   });
 
   // Click on .map-list, send a .ajax request to load the requested map
@@ -121,10 +158,8 @@ $(() => {
       url: `/maps/${mapId}`
     }).done((res) => {
       if (!res[0].lat) {
-        console.log(res);
-        return 0;
+        return;
       }
-      console.log("getting..:)");
       let coordinates = [];
       for (let i = 0; i < res.length; i++) {
         coordinates.push({
@@ -139,7 +174,7 @@ $(() => {
 
   // show map when click the list
   function addMarkersFromCoords(coordinates) {
-    const markers = [];
+    markers = [];
     const bounds = new google.maps.LatLngBounds();
 
     // make the markers
@@ -147,7 +182,7 @@ $(() => {
       addMarkerWithTimeout(coordinates[i], i * 150);
       window.setTimeout(function() {
         if (i === coordinates.length - 1) {
-          map.fitBounds(bounds);
+          googleMap.fitBounds(bounds);
         }
       }, (i * 150) + 100);
     };
@@ -156,7 +191,7 @@ $(() => {
       window.setTimeout(function() {
         const marker = new google.maps.Marker({
           position: position,
-          map: map,
+          map: googleMap,
           animation: google.maps.Animation.DROP
         })
 
@@ -168,30 +203,20 @@ $(() => {
 
   }// end of addMarkersFromCoords
 
-  //Creates thumbnail with point specific info
-  function populatePointInfo (pInfo) {
-    $(".img-thumbnail").attr("src", pInfo.image);
-    $(".thumbnail-title").text("Point title: " + pInfo.point_title);
-    $(".description").text("Description: " + pInfo.description);
-    $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
-    $(".point-edit-btn").data("pointId", pInfo.id).data;
-  }
-
   //Displays information for a specific point
   $(".points-list").on("click", "a", function () {
-    $(".points-pane").addClass("hide-pane");
-    $(".point-detail-pane").removeClass("hide-pane");
     const map_id = $(this).data().mapId;
     const point_id = $(this).data().pointId;
     console.log(map_id, point_id);
+
+    viewPointDetailPane();
     $.ajax({
       method: "GET",
-      url: "/maps/" + map_id + "/" + point_id
+      url: "/maps/points/" + point_id
     }).done((info) => {
-      console.log(info);
       populatePointInfo(info[0]);
-      map.setCenter({ lat: info[0].lat, lng: info[0].long });
-      map.setZoom(17);
+      googleMap.setCenter({ lat: info[0].lat, lng: info[0].long });
+      googleMap.setZoom(17);
     });
   });
 
@@ -207,9 +232,7 @@ $(() => {
         url: '/maps',
         data: formData
       }).done(function (res) {
-        viewPointsPane();
-        // res is array of [map_id, created_by]
-        generatePointsList(res[0]);
+        viewPointsPane(res[0]);
       });
     }
   });
