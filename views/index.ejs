@@ -21,9 +21,9 @@
       <div class="row">
         <div class="col-xs-3">
           <ol class="breadcrumb">
-            <li><a href="#">Maps</a></li>
-            <li><a href="#">Points</a></li>
-            <li>Detail</li>
+            <li class="maps-crumb">Maps</li>
+            <li class="points-crumb hide-class">Points</li>
+            <li class="pdetail-crumb hide-class">Detail</li>
           </ol>
           <section class="maps-pane">
             <div class="new-map">
@@ -47,7 +47,7 @@
             </div>
           </section>
 
-          <section class="points-pane hide-pane">
+          <section class="points-pane hide-class">
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#point-modal">
               Add Point
@@ -60,12 +60,10 @@
                 <div class="list-group points-list">
                 <!-- POINTS LIST GENERATED HERE -->
                 </div>
-                <div class="map-created-by"> </div>
-              </div>
             </div>
           </section>
 
-          <section class="point-detail-pane hide-pane">
+          <section class="point-detail-pane hide-class">
             <!-- SPECIFIC POINT DETAILS GENERATED HERE -->
             <p>
             <!-- EDIT AND DELETE POINT BUTTONS GO HERE -->
@@ -141,7 +139,7 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&libraries=places"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/app-refactor.js"></script>
     <script type="text/javascript" src="/scripts/nav.js"></script>
     <script type="text/javascript" src="/scripts/point-modal.js"></script>
   </body>
