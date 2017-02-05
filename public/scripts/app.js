@@ -8,7 +8,7 @@ $(() => {
     url: "/maps"
   }).done((maps) => {
     for(map of maps) {
-      $("<a>").data("mapId", map.id).attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
+      $("<a>").data("mapId", map.id).data("mapTitle", map.map_title).attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
     }
   });
 
@@ -37,6 +37,8 @@ $(() => {
   $(".map-list").on("click", "a", function () {
     $(".maps-pane").addClass("hide-pane");
     $(".points-pane").removeClass("hide-pane");
+    const mapTitle = $(this).data('mapTitle');
+    $(".points-pane .maps-title").text("Map Title: " + mapTitle);
     const map_id = $(this).data().mapId;
     getListMapCoordinates(map_id, showListMap);
     showMapPoints(map_id);
