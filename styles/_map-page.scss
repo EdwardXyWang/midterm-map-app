@@ -41,6 +41,14 @@
     &.hide-class {
       display: none;
     }
+
+    .fav-btn {
+      background-color: white;
+    }
+
+    .is-favourite {
+      background-color: green;
+    }
   }
 }
 
