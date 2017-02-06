@@ -97,9 +97,9 @@ $(() => {
 
   // Creates thumbnail with point specific info
   function populatePointInfo(pInfo) {
-    $(".img-thumbnail").on("error", function () {
+    $(".img-thumbnail").attr("src", pInfo.image).on("error", function () {
       $(this).unbind("error").attr("src", "/map-marker.png");
-    }).attr("src", pInfo.image);
+    })
 
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
