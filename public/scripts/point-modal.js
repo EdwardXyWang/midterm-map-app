@@ -3,6 +3,7 @@ $(() => {
   var markers = [];
   var submitUrl = "";
   var pointToEditId;
+  var map_id;
 
   function initMap() {
     var vancouver = {lat: 49.261, lng: -123.123};
@@ -28,7 +29,7 @@ $(() => {
 
       $.ajax({
         method: "GET",
-        url: "/maps/points/" + pointToEditId
+        url: submitUrl
       }).done((info) => {
         $("#location").val(info[0].lat + ", " + info[0].long);
         $("#title").val(info[0].point_title);
@@ -42,6 +43,8 @@ $(() => {
   $('#point-modal').on('shown.bs.modal', function() {
     initMap();
 
+    map_id = $(".points-crumb").data().mapId;
+    console.log(map_id);
 
     var defaultBounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(49.208824, -123.273213),
@@ -113,6 +116,11 @@ $(() => {
 
   $(".modal-form").on("submit", function(event) {
     event.preventDefault();
+
+    if (submitUrl === "/maps/") {
+      submitUrl += map_id;
+      console.log(submitUrl);
+    };
 
     var place = searchBox.getPlaces()[0];
 
