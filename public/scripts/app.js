@@ -53,7 +53,7 @@ $(() => {
     }).done((points) => {
       if (points[0].lat) {
         for(point of points) {
-          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
+          $("<a>").attr("href", "#").data("mapId", map_id).data("pointId", point.point_id).text(point.point_title).addClass("list-group-item").appendTo($(".points-list"));
         }
       }
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
@@ -67,7 +67,8 @@ $(() => {
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
     $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
-    $(".point-edit-btn").data("pointId", pInfo.id).data;
+    $(".point-edit-btn").data("pointId", pInfo.point_id).data;
+    $(".point-delete-btn").data("pointId", pInfo.point_id).data;
   }
 
   //Displays information for a specific point
@@ -79,7 +80,7 @@ $(() => {
 
     $.ajax({
       method: "GET",
-      url: "/maps/" + map_id + "/" + point_id
+      url: "/maps/points/" + point_id
     }).done((info) => {
       populatePointInfo(info[0]);
       map.setCenter({ lat: info[0].lat, lng: info[0].long });
@@ -142,10 +143,7 @@ $(() => {
   $('.new-map form').on('submit', function (event) {
     event.preventDefault();
     if (!$.trim($(this).find('.input-group input').val())) {
-      $(this).closest('.maps-pane').find('.alert').removeClass('hide-class');
-      setTimeout(function () {
-        $('.maps-pane .alert').addClass('hide-class');
-      }, 1400);
+      $(this).closest('.maps-pane').find('.alert').toggleClass('hide-class');
     } else {
       var formData = $(this).serialize();
       $.ajax({
@@ -203,4 +201,10 @@ $(() => {
       $('.points-pane .favourite').text('Liked').css("background-color", "green");
     }
   }
+
+  $(".maps-pane .alert").on('close.bs.alert', function (event) {
+    event.preventDefault();
+    $(this).toggleClass("hide-class");
+  })
+
 });

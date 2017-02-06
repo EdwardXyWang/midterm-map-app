@@ -19,7 +19,7 @@ module.exports = (knex) => {
   // return all points and title for a specific map
   router.get("/:map_id", (req, res) => {
     knex
-      .select("users.first_name", "users.last_name", "points.id", "point_title", "lat", "long", "maps.id")
+      .select("users.first_name", "users.last_name", "points.id AS point_id", "point_title", "lat", "long", "maps.id AS map_id")
       .from("users")
       .join("maps", "users.id", "maps.created_by")
       .leftOuterJoin("points", "maps.id", "map_id")
@@ -31,9 +31,9 @@ module.exports = (knex) => {
   });
 
   // return all info for one selected point
-  router.get("/:map_id/:point_id", (req, res) => {
+  router.get("/points/:point_id", (req, res) => {
     knex
-      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name", "points.id")
+      .select("description", "lat", "long", "image", "point_title", "first_name", "last_name", "points.id AS point_id")
       .from("users")
       .join("maps", "users.id", "maps.created_by")
       .join("points", "maps.id", "map_id")
@@ -80,7 +80,7 @@ module.exports = (knex) => {
   });
 
   // router.put(), update a specific point
-  router.post("/:map_id/:point_id", (req, res) => {
+  router.post("/points/:point_id", (req, res) => {
     knex("points")
       .where("id", req.params.point_id)
       .update({
@@ -97,10 +97,13 @@ module.exports = (knex) => {
   });
 
   // router.delete(), delete a specific point by point_id
-  router.post("/:map_id/:point_id/delete", (req, res) => {
+  router.post("/points/:point_id/delete", (req, res) => {
     knex("points")
       .where("id", req.params.point_id)
-      .del();
+      .del().then(() => {
+        console.log("Point deleted!");
+        res.status(200).send();
+      });
   });
 
   return router;

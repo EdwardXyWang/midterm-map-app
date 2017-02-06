@@ -12,7 +12,9 @@ module.exports = (knex) => {
       .from("users")
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // render user profile page
@@ -28,7 +30,9 @@ module.exports = (knex) => {
           fname: fname,
           lname: lname
         });
-      })
+      }).catch(function(err) {
+          console.error(err);
+        });
   });
 
   // return list of user's maps
@@ -39,7 +43,9 @@ module.exports = (knex) => {
       .where("created_by", req.params.user_id)
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // return list of maps that user has contributed to
@@ -52,7 +58,9 @@ module.exports = (knex) => {
       .where("points.created_by", req.params.user_id)
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
 
@@ -66,7 +74,9 @@ module.exports = (knex) => {
       .where("user_id", req.params.user_id)
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // toggle existence of user/map favourite
@@ -95,7 +105,9 @@ module.exports = (knex) => {
               res.send(false); // new favourite
             });
         }
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   return router;

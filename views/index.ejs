@@ -21,9 +21,9 @@
       <div class="row">
         <div class="col-xs-3">
           <ol class="breadcrumb">
-            <li><a href="#" class="store-user-id" data-userid="<%=USER_ID%>">Maps</a></li>
-            <li><a href="#">Points</a></li>
-            <li>Detail</li>
+            <li class="maps-crumb" data-userid="<%=USER_ID%>">Maps</li>
+            <li class="points-crumb hide-class">Points</li>
+            <li class="pdetail-crumb hide-class">Detail</li>
           </ol>
           <section class="maps-pane">
             <div class="new-map">
@@ -46,7 +46,8 @@
               <!-- MAP LIST GENERATED HERE -->
             </div>
           </section>
-          <section class="points-pane hide-pane">
+<<<<<<< HEAD
+          <section class="points-pane hide-class">
             <div class="row">
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-default add-point-btn col-md-6" data-toggle="modal" data-target="#point-modal">
@@ -62,21 +63,23 @@
                 <div class="panel-heading">
                   <h5 class="maps-title"></h5>
                 </div>
-                <div class="panel-body list-group">
+                <div class="panel-body">
                   <div class="list-group points-list">
                   <!-- POINTS LIST GENERATED HERE -->
                   </div>
                 </div>
               </div>
-              <div class="map-created-by"> </div>
             </div>
           </section>
-          <section class="point-detail-pane hide-pane">
+          <section class="point-detail-pane hide-class">
             <!-- SPECIFIC POINT DETAILS GENERATED HERE -->
             <p>
             <!-- EDIT AND DELETE POINT BUTTONS GO HERE -->
             <button type="button" class="btn btn-default point-edit-btn" data-toggle="modal" data-target="#point-modal">
               Edit
+            </button>
+            <button type="button" class="btn btn-default point-delete-btn">
+              Delete
             </button>
             </p>
             <div class="thumbnail">
@@ -147,7 +150,7 @@
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= API_KEY %>&libraries=places"></script>
-    <script type="text/javascript" src="/scripts/app.js"></script>
+    <script type="text/javascript" src="/scripts/app-refactor.js"></script>
     <script type="text/javascript" src="/scripts/nav.js"></script>
     <script type="text/javascript" src="/scripts/point-modal.js"></script>
   </body>
