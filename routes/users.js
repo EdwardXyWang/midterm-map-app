@@ -38,7 +38,7 @@ module.exports = (knex) => {
   // return list of user's maps
   router.get("/:user_id/maps", (req, res) => {
     knex
-      .select("map_title")
+      .select("map_title", "id")
       .from("maps")
       .where("created_by", req.params.user_id)
       .then((results) => {
