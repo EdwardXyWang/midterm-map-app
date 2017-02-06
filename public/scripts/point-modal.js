@@ -116,18 +116,19 @@ $(() => {
   $(".modal-form").on("submit", function(event) {
     event.preventDefault();
 
+    var formData = $(this).serialize();
+
     if (submitUrl === "/maps/") {
       submitUrl += map_id;
     };
 
-    console.log(submitUrl);
+    if (searchBox.getPlaces()){
+      var place = searchBox.getPlaces()[0];
 
-    var place = searchBox.getPlaces()[0];
+      formData += "&lat=" + place.geometry.location.lat();
+      formData += "&long=" + place.geometry.location.lng();
+    }
 
-    var formData = $(this).serialize();
-
-    formData += "&lat=" + place.geometry.location.lat();
-    formData += "&long=" + place.geometry.location.lng();
 
     $.ajax({
       url: submitUrl,
