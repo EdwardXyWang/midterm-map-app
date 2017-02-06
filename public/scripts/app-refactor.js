@@ -37,7 +37,16 @@ $(() => {
       }
     }
     $("<div>").addClass("created").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".points-pane .panel-body"));
-  };
+  }
+
+  function getPointDetails(point_id, done) {
+    $.ajax({
+      method: "GET",
+      url: "/maps/points/" + point_id
+    }).done((info) => {
+      done(info);
+    });
+  }
 
   function viewMapsPane() {
     $(".maps-pane").removeClass("hide-class");
@@ -49,6 +58,8 @@ $(() => {
     // Create maps list in the sidebar
     clearMapsList();
     getMapList(generateMapList);
+    $(".points-crumb").data("mapId", null);
+
     clearMarkers(markers);
     googleMap.setZoom(11);
   }
@@ -63,6 +74,7 @@ $(() => {
     // Create the points list in the sidebar
     clearPointsList();
     getPointsList(map_id, generatePointList);
+    $(".point-edit-btn").data("pointId", null);
   }
 
   function viewPointDetailPane() {
@@ -89,7 +101,8 @@ $(() => {
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
     $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
-    $(".point-edit-btn").data("pointId", pInfo.id).data;
+    $(".point-edit-btn").data("pointId", pInfo.point_id).data;
+    $(".point-delete-btn").data("pointId", pInfo.point_id).data;
   }
 
   // Google maps api functions
@@ -205,15 +218,12 @@ $(() => {
 
   //Displays information for a specific point
   $(".points-list").on("click", "a", function () {
-    const map_id = $(this).data().mapId;
+    const map_id = $(".points-crumb").data().mapId;
     const point_id = $(this).data().pointId;
-    console.log(map_id, point_id);
 
     viewPointDetailPane();
-    $.ajax({
-      method: "GET",
-      url: "/maps/points/" + point_id
-    }).done((info) => {
+
+    getPointDetails(point_id, function (info) {
       populatePointInfo(info[0]);
       googleMap.setCenter({ lat: info[0].lat, lng: info[0].long });
       googleMap.setZoom(17);
@@ -237,10 +247,29 @@ $(() => {
     }
   });
 
+  // Handle point deletion
+  $(".point-delete-btn").on("click", function() {
+    const pointToDeleteId = $(".point-edit-btn").data().pointId;
+    console.log(pointToDeleteId);
+    $.ajax({
+      method: "POST",
+      url: "/maps/points/" + pointToDeleteId + "/delete"
+    }).done(() => {
+      console.log("Sent delete (POST) request");
+      $(".point-edit-btn").data("pointId", null);
+      viewPointsPane($(".points-crumb").data().mapId);
+    })
+  });
+
   // Change default behaviour of alert dismissal
   $(".maps-pane .alert").on('close.bs.alert', function (event) {
     event.preventDefault();
     $(this).toggleClass("hide-class");
   })
+
+  $("#point-modal").on("hidden.bs.modal", function() {
+    clearPointsList();
+    getPointsList($(".points-crumb").data().mapId, generatePointList);
+  });
 
 });
