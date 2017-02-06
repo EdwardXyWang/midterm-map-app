@@ -1,7 +1,7 @@
 $(() => {
 
   var map;
-  const USER_ID = $('.map-page-views .breadcrumb .store-user-id').attr('data-userId');
+  const USER_ID = $('.map-page-views .breadcrumb .maps-crumb').attr('data-userid');
 
   //Displays list of maps
   $.ajax({
@@ -36,14 +36,15 @@ $(() => {
 
   // click the list
   $(".map-list").on("click", "a", function () {
-    $(".maps-pane").addClass("hide-pane");
-    $(".points-pane").removeClass("hide-pane");
+    $(".maps-pane").addClass("hide-class");
+    $(".points-pane").removeClass("hide-class");
     const mapTitle = $(this).data('mapTitle');
     $(".points-pane .maps-title").text("Map Title: " + mapTitle);
     const map_id = $(this).data().mapId;
     getListMapCoordinates(map_id, showListMap);
     showMapPoints(map_id);
     showIfFavourited(map_id, renderFavourite);
+    console.log('content');
   });
 
   function showMapPoints(map_id) {
@@ -73,8 +74,8 @@ $(() => {
 
   //Displays information for a specific point
   $(".points-list").on("click", "a", function () {
-    $(".points-pane").addClass("hide-pane");
-    $(".point-detail-pane").removeClass("hide-pane");
+    $(".points-pane").addClass("hide-class");
+    $(".point-detail-pane").removeClass("hide-class");
     const map_id = $(this).data().mapId;
     const point_id = $(this).data().pointId;
 
@@ -151,8 +152,8 @@ $(() => {
         url: '/maps',
         data: formData
       }).done(function (res) {
-        $(".maps-pane").addClass("hide-pane");
-        $(".points-pane").removeClass("hide-pane");
+        $(".maps-pane").addClass("hide-class");
+        $(".points-pane").removeClass("hide-class");
         showMapPoints(res[0]);
       });
     }
