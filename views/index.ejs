@@ -26,6 +26,7 @@
             <li class="pdetail-crumb hide-class">Detail</li>
           </ol>
           <section class="maps-pane">
+            <% if (USER_ID) { %>
             <div class="new-map">
               <form>
                 <div class="input-group">
@@ -42,6 +43,7 @@
               </button>
               Input must not be empty.
             </div>
+            <% } %>
             <div class="list-group map-list">
               <!-- MAP LIST GENERATED HERE -->
             </div>
@@ -49,9 +51,11 @@
 
           <section class="points-pane hide-class">
             <!-- Button trigger modal -->
+            <% if (USER_ID) { %>
             <button type="button" class="btn btn-default" data-toggle="modal" data-target="#point-modal">
               Add Point
             </button>
+            <% } %>
             <div class="panel panel-default">
               <div class="panel-heading">
                 <h5 class="maps-title"></h5>
@@ -65,6 +69,7 @@
 
           <section class="point-detail-pane hide-class">
             <!-- SPECIFIC POINT DETAILS GENERATED HERE -->
+            <% if (USER_ID) { %>
             <p>
             <!-- EDIT AND DELETE POINT BUTTONS GO HERE -->
             <button type="button" class="btn btn-default point-edit-btn" data-toggle="modal" data-target="#point-modal">
@@ -74,6 +79,7 @@
               Delete
             </button>
             </p>
+            <% } %>
             <div class="thumbnail">
               <img class="img-thumbnail">
               <div class="caption text-center">

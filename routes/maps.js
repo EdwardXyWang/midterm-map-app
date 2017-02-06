@@ -13,7 +13,9 @@ module.exports = (knex) => {
       .from("maps")
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // return all points and title for a specific map
@@ -27,7 +29,9 @@ module.exports = (knex) => {
       .orderBy("points.id")
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // return all info for one selected point
@@ -40,7 +44,9 @@ module.exports = (knex) => {
       .where("points.id", req.params.point_id)
       .then((results) => {
         res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // create a new empty map object with given title
@@ -52,7 +58,9 @@ module.exports = (knex) => {
       created_by: req.session.user_id
     }).then((results) => {
       res.json(results);
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // create a new point associated with this map_id
@@ -69,7 +77,9 @@ module.exports = (knex) => {
     }).then((results) => {
       console.log("inserted!");
       res.status(200).send();
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // router.delete(), delete a specific map by map_id
@@ -93,7 +103,9 @@ module.exports = (knex) => {
     }).then((results) => {
       console.log("updated!");
       res.status(200).send();
-    });
+    }).catch(function(err) {
+        console.error(err);
+      });
   });
 
   // router.delete(), delete a specific point by point_id
@@ -103,6 +115,8 @@ module.exports = (knex) => {
       .del().then(() => {
         console.log("Point deleted!");
         res.status(200).send();
+      }).catch(function(err) {
+        console.error(err);
       });
   });
 
