@@ -56,7 +56,7 @@ app.use("/users", usersRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index", { API_KEY : process.env.GOOGLE_API });
+  res.render("index", { USER_ID : req.session.user_id, API_KEY : process.env.GOOGLE_API });
 });
 
 app.post("/login", (req, res) => {

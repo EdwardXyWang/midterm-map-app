@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-xs-3">
           <ol class="breadcrumb">
-            <li><a href="#">Maps</a></li>
+            <li><a href="#" class="store-user-id" data-userid="<%=USER_ID%>">Maps</a></li>
             <li><a href="#">Points</a></li>
             <li>Detail</li>
           </ol>
@@ -46,25 +46,31 @@
               <!-- MAP LIST GENERATED HERE -->
             </div>
           </section>
-
           <section class="points-pane hide-pane">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#point-modal">
-              Add Point
-            </button>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h5 class="maps-title"></h5>
-              </div>
-              <div class="panel-body">
-                <div class="list-group points-list">
-                <!-- POINTS LIST GENERATED HERE -->
+            <div class="row">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-default add-point-btn col-md-6" data-toggle="modal" data-target="#point-modal">
+                Add Point
+              </button>
+              <!-- Button add to favourite -->
+              <button type="button" class="btn btn-default favourite col-md-6">
+                Like
+              </button>
+            </div>
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5 class="maps-title"></h5>
                 </div>
-                <div class="map-created-by"> </div>
+                <div class="panel-body list-group">
+                  <div class="list-group points-list">
+                  <!-- POINTS LIST GENERATED HERE -->
+                  </div>
+                </div>
               </div>
+              <div class="map-created-by"> </div>
             </div>
           </section>
-
           <section class="point-detail-pane hide-pane">
             <!-- SPECIFIC POINT DETAILS GENERATED HERE -->
             <p>

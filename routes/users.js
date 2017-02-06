@@ -70,12 +70,31 @@ module.exports = (knex) => {
   });
 
   // toggle existence of user/map favourite
-  router.post("/:user_id/favourites", (req, res) => {
+  router.post("/favourites", (req, res) => {
     knex
       .select("*")
       .from("favourites")
-      .where("user_id", req.params.user_id).andWhere("map_id", req.body.map_id)
+      .where("user_id", req.session.user_id).andWhere("map_id", req.body.map_id)
       .then((results) => {
+        if(results.length !== 0) {
+          knex("favourites")
+            .where({
+              map_id: req.body.map_id,
+              user_id: req.session.user_id
+            })
+            .del()
+            .then(() => {
+              res.send(true); // existed favourite
+            });
+        } else {
+          knex("favourites")
+            .insert({
+              map_id: req.body.map_id,
+              user_id: req.session.user_id
+            }).then(() => {
+              res.send(false); // new favourite
+            });
+        }
     });
   });
 
