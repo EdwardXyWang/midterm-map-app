@@ -290,7 +290,9 @@ $(function() {
     if (!$.trim($(this).find(".input-group input").val())) {
       $(this).closest(".maps-pane").find(".alert").toggleClass("hide-class");
     } else {
+      var formMapTitle = $(this).find('[name="map_title"]').val();
       var formData = $(this).serialize();
+      $(this)[0].reset();
       $.ajax({
         method: "POST",
         url: "/maps",
@@ -298,7 +300,7 @@ $(function() {
       }).done(function (res) {
         viewPointsPane(res[0]);
         $(".points-crumb").data("mapId", res[0]);
-        $(".points-pane .maps-title").text(formData.substring(10));
+        $(".points-pane .maps-title").text(formMapTitle);
       });
     }
   });
