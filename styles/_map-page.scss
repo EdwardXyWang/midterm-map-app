@@ -11,6 +11,11 @@
       display: none;
     }
 
+    .list-group {
+      overflow-y: scroll;
+      height: 67vh;
+    }
+
     .new-map {
       padding: $global-padding 0;
     }

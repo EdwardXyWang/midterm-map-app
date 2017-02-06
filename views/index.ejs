@@ -21,7 +21,7 @@
       <div class="row">
         <div class="col-xs-3">
           <ol class="breadcrumb">
-            <li class="maps-crumb">Maps</li>
+            <li class="maps-crumb" data-userid="<%=USER_ID%>">Maps</li>
             <li class="points-crumb hide-class">Points</li>
             <li class="pdetail-crumb hide-class">Detail</li>
           </ol>
@@ -48,25 +48,32 @@
               <!-- MAP LIST GENERATED HERE -->
             </div>
           </section>
-
           <section class="points-pane hide-class">
-            <!-- Button trigger modal -->
             <% if (USER_ID) { %>
-            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#point-modal">
-              Add Point
-            </button>
+            <div class="row">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-default add-point-btn col-md-6" data-toggle="modal" data-target="#point-modal">
+                Add Point
+              </button>
+              <!-- Button add to favourite -->
+              <button type="button" class="btn btn-default favourite col-md-6">
+                Like
+              </button>
+            </div>
             <% } %>
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h5 class="maps-title"></h5>
-              </div>
-              <div class="panel-body">
-                <div class="list-group points-list">
-                <!-- POINTS LIST GENERATED HERE -->
+            <div class="row">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h5 class="maps-title"></h5>
                 </div>
+                <div class="panel-body">
+                  <div class="list-group points-list">
+                  <!-- POINTS LIST GENERATED HERE -->
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
-
           <section class="point-detail-pane hide-class">
             <!-- SPECIFIC POINT DETAILS GENERATED HERE -->
             <% if (USER_ID) { %>

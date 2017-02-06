@@ -1,6 +1,7 @@
 $(() => {
 
   var map;
+  const USER_ID = $('.map-page-views .breadcrumb .maps-crumb').attr('data-userid');
 
   //Displays list of maps
   $.ajax({
@@ -35,13 +36,15 @@ $(() => {
 
   // click the list
   $(".map-list").on("click", "a", function () {
-    $(".maps-pane").addClass("hide-pane");
-    $(".points-pane").removeClass("hide-pane");
+    $(".maps-pane").addClass("hide-class");
+    $(".points-pane").removeClass("hide-class");
     const mapTitle = $(this).data('mapTitle');
     $(".points-pane .maps-title").text("Map Title: " + mapTitle);
     const map_id = $(this).data().mapId;
     getListMapCoordinates(map_id, showListMap);
     showMapPoints(map_id);
+    showIfFavourited(map_id, renderFavourite);
+    console.log('content');
   });
 
   function showMapPoints(map_id) {
@@ -55,6 +58,7 @@ $(() => {
         }
       }
       $("<div>").text("Map Created by: " + points[0].first_name + " " + points[0].last_name).appendTo($(".map-created-by"));
+      $('.points-pane .add-point-btn').data('mapId', map_id);
     });
   }
 
@@ -70,8 +74,8 @@ $(() => {
 
   //Displays information for a specific point
   $(".points-list").on("click", "a", function () {
-    $(".points-pane").addClass("hide-pane");
-    $(".point-detail-pane").removeClass("hide-pane");
+    $(".points-pane").addClass("hide-class");
+    $(".point-detail-pane").removeClass("hide-class");
     const map_id = $(this).data().mapId;
     const point_id = $(this).data().pointId;
 
@@ -92,7 +96,6 @@ $(() => {
       url: `/maps/${mapId}`
     }).done((res) => {
       if (!res[0].lat) {
-        console.log(res);
         return;
       }
 
@@ -149,12 +152,56 @@ $(() => {
         url: '/maps',
         data: formData
       }).done(function (res) {
-        $(".maps-pane").addClass("hide-pane");
-        $(".points-pane").removeClass("hide-pane");
+        $(".maps-pane").addClass("hide-class");
+        $(".points-pane").removeClass("hide-class");
         showMapPoints(res[0]);
       });
     }
   });
+
+  $('.points-pane').on('click', '.favourite', function () {
+    const mapId = $('.points-pane .add-point-btn').data('mapId');
+    FavouriteOrNot(mapId, renderFavourite);
+  })
+
+  function FavouriteOrNot(mapId, renderFavourite) {
+    const formData = {map_id: mapId};
+    $.ajax({
+      method: 'POST',
+      url: '/users/favourites',
+      data: formData
+    }).done(function (res) {
+      // true: existed; false: new
+      renderFavourite(res);
+    });
+  }
+
+  function showIfFavourited(mapId, renderFavourite) {
+    let urlLike = "/users/" + USER_ID + "/favourites";
+    $.ajax({
+      method: "GET",
+      url: urlLike
+    }).done((res) => {
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].id === mapId) {
+          renderFavourite(false);
+          return;
+        }
+      }
+      renderFavourite(true);
+    });
+  }
+
+  // render favourite button accordingly
+  function renderFavourite(boolValue) {
+    if (boolValue) {
+      // true: existed
+      $('.points-pane .favourite').text('Like').css("background-color", "white");
+    } else {
+      // false: new
+      $('.points-pane .favourite').text('Liked').css("background-color", "green");
+    }
+  }
 
   $(".maps-pane .alert").on('close.bs.alert', function (event) {
     event.preventDefault();
