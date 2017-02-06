@@ -2,6 +2,7 @@ $(() => {
   // Variable declarations
   var googleMap;
   var markers = [];
+  const USER_ID = $(".maps-crumb").attr("data-userid");
 
   // Function definitions
 
@@ -65,6 +66,10 @@ $(() => {
   }
 
   function viewPointsPane(map_id) {
+    if(USER_ID) {
+      showIfFavourited(map_id, renderFavourite);
+    }
+
     $(".maps-pane").addClass("hide-class");
     $(".point-detail-pane").addClass("hide-class");
     $(".points-pane").removeClass("hide-class");
@@ -75,6 +80,7 @@ $(() => {
     clearPointsList();
     getPointsList(map_id, generatePointList);
     $(".point-edit-btn").data("pointId", null);
+    $(".points-crumb").data("mapId", map_id);
   }
 
   function viewPointDetailPane() {
@@ -112,12 +118,12 @@ $(() => {
   function initMap() {
     let geocoder = new google.maps.Geocoder();
     const location = "Vancouver";
-    geocoder.geocode({'address': location}, function(results, status) {
+    geocoder.geocode({"address": location}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         var lat = results[0].geometry.location.lat();
         var lng = results[0].geometry.location.lng();
         var latlng = {lat: lat, lng: lng};
-        googleMap = new google.maps.Map(document.getElementsByClassName('map-box')[0], {
+        googleMap = new google.maps.Map(document.getElementsByClassName("map-box")[0], {
           center: latlng,
           zoom: 11,
           maxZoom: 17
@@ -183,8 +189,8 @@ $(() => {
       let coordinates = [];
       for (let i = 0; i < res.length; i++) {
         coordinates.push({
-          lat: res[i]['lat'],
-          lng: res[i]['long']
+          lat: res[i]["lat"],
+          lng: res[i]["long"]
         });
       }
       addMarkersFromCoords(coordinates);
@@ -238,15 +244,15 @@ $(() => {
   });
 
   // New map form submission
-  $('.new-map form').on('submit', function (event) {
+  $(".new-map form").on("submit", function (event) {
     event.preventDefault();
-    if (!$.trim($(this).find('.input-group input').val())) {
-      $(this).closest('.maps-pane').find('.alert').toggleClass('hide-class');
+    if (!$.trim($(this).find(".input-group input").val())) {
+      $(this).closest(".maps-pane").find(".alert").toggleClass("hide-class");
     } else {
       var formData = $(this).serialize();
       $.ajax({
-        method: 'POST',
-        url: '/maps',
+        method: "POST",
+        url: "/maps",
         data: formData
       }).done(function (res) {
         viewPointsPane(res[0]);
@@ -272,7 +278,7 @@ $(() => {
   });
 
   // Change default behaviour of alert dismissal
-  $(".maps-pane .alert").on('close.bs.alert', function (event) {
+  $(".maps-pane .alert").on("close.bs.alert", function (event) {
     event.preventDefault();
     $(this).toggleClass("hide-class");
   })
@@ -281,5 +287,49 @@ $(() => {
     clearPointsList();
     getPointsList($(".points-crumb").data().mapId, generatePointList);
   });
+
+  $(".points-pane").on("click", ".favourite", function () {
+    const mapId = $(".points-crumb").data("mapId");
+    FavouriteOrNot(mapId, renderFavourite);
+  })
+
+  function FavouriteOrNot(mapId, renderFavourite) {
+    const formData = {map_id: mapId};
+    $.ajax({
+      method: "POST",
+      url: "/users/favourites",
+      data: formData
+    }).done(function (res) {
+      // true: existed; false: new
+      renderFavourite(res);
+    });
+  }
+
+  function showIfFavourited(mapId, renderFavourite) {
+    let urlLike = "/users/" + USER_ID + "/favourites";
+    $.ajax({
+      method: "GET",
+      url: urlLike
+    }).done((res) => {
+      for (let i = 0; i < res.length; i++) {
+        if (res[i].id === mapId) {
+          renderFavourite(false);
+          return;
+        }
+      }
+      renderFavourite(true);
+    });
+  }
+
+  // render favourite button accordingly
+  function renderFavourite(boolValue) {
+    if (boolValue) {
+      // true: existed
+      $(".points-pane .favourite").text("Like").css("background-color", "white");
+    } else {
+      // false: new
+      $(".points-pane .favourite").text("Liked").css("background-color", "green");
+    }
+  }
 
 });
