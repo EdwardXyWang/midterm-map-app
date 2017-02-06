@@ -21,7 +21,7 @@ module.exports = (knex) => {
   // return all points and title for a specific map
   router.get("/:map_id", (req, res) => {
     knex
-      .select("users.first_name", "users.last_name", "points.id AS point_id", "point_title", "lat", "long", "maps.id AS map_id")
+      .select("users.first_name", "users.last_name", "points.id AS point_id", "point_title", "lat", "long", "maps.id AS map_id", "map_title")
       .from("users")
       .join("maps", "users.id", "maps.created_by")
       .leftOuterJoin("points", "maps.id", "map_id")
