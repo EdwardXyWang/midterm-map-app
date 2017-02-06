@@ -1,4 +1,4 @@
-$(() => {
+$(function () {
   var map, searchBox;
   var markers = [];
   var submitUrl = "";
@@ -58,7 +58,7 @@ $(() => {
 
       console.log("places_changed");
 
-      for (let marker of markers) {
+      for (var marker of markers) {
         marker.setMap(null);
       }
 
@@ -89,8 +89,8 @@ $(() => {
 
 
     if (pointToEditId) {
-      const location = $(".modal-form #location").val().split(", ");
-      const latlng = new google.maps.LatLng(location[0], location[1]);
+      var location = $(".modal-form #location").val().split(", ");
+      var latlng = new google.maps.LatLng(location[0], location[1]);
       map.setCenter(latlng);
       var marker = new google.maps.Marker({
         map: map,
@@ -135,7 +135,7 @@ $(() => {
       method: "POST",
       data: formData
     }).then(function () {
-      console.log("Inserted!");
+      console.log("Submitted!");
     });
   });
 
