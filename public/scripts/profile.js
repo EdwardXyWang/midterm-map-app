@@ -8,7 +8,8 @@ $(() => {
     url: pathname + "/maps"
   }).done((maps) => {
     for(map of maps) {
-      $("<a>").attr("href", "#").text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
+      console.log(map);
+      $("<a>").attr("href", "/#viewmap-" + map.id).text(map.map_title).addClass("list-group-item").appendTo($(".map-list"));
     }
   });
 
@@ -18,7 +19,7 @@ $(() => {
     url: pathname + "/contributions"
   }).done((contributions) => {
     for(contribution of contributions) {
-      $("<a>").attr("href", "#").text(contribution.map_title).addClass("list-group-item").appendTo($(".map-contributions"));
+      $("<a>").attr("href", "/#viewmap-" + contribution.id).text(contribution.map_title).addClass("list-group-item").appendTo($(".map-contributions"));
     }
   });
 
@@ -28,7 +29,7 @@ $(() => {
     url: pathname + "/favourites"
   }).done((favourites) => {
     for(favourite of favourites) {
-      $("<a>").attr("href", "#").text(favourite.map_title).addClass("list-group-item").appendTo($(".map-favourites"));
+      $("<a>").attr("href", "/#viewmap-" + favourite.id).text(favourite.map_title).addClass("list-group-item").appendTo($(".map-favourites"));
     }
   });
 

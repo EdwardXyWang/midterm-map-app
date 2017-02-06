@@ -52,7 +52,7 @@ module.exports = (knex) => {
   // create a new empty map object with given title
   router.post("/", (req, res) => {
     knex("maps")
-    .returning('id', 'created_by')
+    .returning('id')
     .insert({
       map_title: req.body.map_title,
       created_by: req.session.user_id

@@ -44,7 +44,6 @@ $(() => {
     initMap();
 
     map_id = $(".points-crumb").data().mapId;
-    console.log(map_id);
 
     var defaultBounds = new google.maps.LatLngBounds(
     new google.maps.LatLng(49.208824, -123.273213),
@@ -119,8 +118,9 @@ $(() => {
 
     if (submitUrl === "/maps/") {
       submitUrl += map_id;
-      console.log(submitUrl);
     };
+
+    console.log(submitUrl);
 
     var place = searchBox.getPlaces()[0];
 
