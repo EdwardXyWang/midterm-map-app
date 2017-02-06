@@ -21,8 +21,8 @@
       <div class="row">
         <div class="col-xs-3">
           <ol class="breadcrumb">
-            <li class="maps-crumb" data-userid="<%=USER_ID%>">Maps</li>
-            <li class="points-crumb hide-class">Points</li>
+            <li class="maps-crumb" data-userid="<%=USER_ID%>"><a href="#">Maps</a></li>
+            <li class="points-crumb hide-class"><a href="#">Points</a></li>
             <li class="pdetail-crumb hide-class">Detail</li>
           </ol>
           <section class="maps-pane">
@@ -50,28 +50,18 @@
           </section>
           <section class="points-pane hide-class">
             <% if (USER_ID) { %>
-            <div class="row">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-default add-point-btn col-md-6" data-toggle="modal" data-target="#point-modal">
+              <button type="button" class="btn btn-default add-point-btn" data-toggle="modal" data-target="#point-modal">
                 Add Point
               </button>
               <!-- Button add to favourite -->
-              <button type="button" class="btn btn-default favourite col-md-6">
-                Like
+              <button type="button" class="btn btn-default fav-btn">
+                Like?
               </button>
-            </div>
             <% } %>
-            <div class="row">
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h5 class="maps-title"></h5>
-                </div>
-                <div class="panel-body">
-                  <div class="list-group points-list">
-                  <!-- POINTS LIST GENERATED HERE -->
-                  </div>
-                </div>
-              </div>
+            <h4 class="maps-title"></h4>
+            <div class="list-group points-list">
+            <!-- POINTS LIST GENERATED HERE -->
             </div>
           </section>
           <section class="point-detail-pane hide-class">
