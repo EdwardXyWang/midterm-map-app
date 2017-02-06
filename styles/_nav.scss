@@ -1,6 +1,12 @@
 nav {
   .navbar-header {
     padding: $global-padding;
+
+    .navbar-brand {
+      border-radius: 5px;
+      background-color: #a3d0e2;
+      color: #515151;
+    }
   }
 
   ul {
