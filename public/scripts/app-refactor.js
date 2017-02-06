@@ -97,7 +97,10 @@ $(() => {
 
   // Creates thumbnail with point specific info
   function populatePointInfo(pInfo) {
-    $(".img-thumbnail").attr("src", pInfo.image);
+    $(".img-thumbnail").on("error", function () {
+      $(this).unbind("error").attr("src", "/map-marker.png");
+    }).attr("src", pInfo.image);
+
     $(".thumbnail-title").text("Point title: " + pInfo.point_title);
     $(".description").text("Description: " + pInfo.description);
     $(".point-created-by").text("Point created by: " + pInfo.first_name + " " + pInfo.last_name);
@@ -135,6 +138,10 @@ $(() => {
 
   initMap();
   getMapList(generateMapList);
+  if (window.location.hash.includes("viewmap-")) {
+    var hashMapId = window.location.hash.substring(9);
+    viewPointsPane(hashMapId);
+  }
 
   // Event listeners
 
@@ -243,6 +250,9 @@ $(() => {
         data: formData
       }).done(function (res) {
         viewPointsPane(res[0]);
+        console.log(res);
+        $(".points-crumb").data("mapId", res[0]);
+        $(".points-pane .maps-title").text("Map Title: " + formData.substring(10));
       });
     }
   });
