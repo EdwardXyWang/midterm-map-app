@@ -21,6 +21,8 @@ $(function () {
   $('#point-modal').on('show.bs.modal', function() {
     pointToEditId = $(".point-edit-btn").data().pointId;
     submitUrl = "/maps/";
+    $(".modal-title").text("Add New Point");
+    $(".submit-point").text("Add Point");
 
     if (pointToEditId) {
       submitUrl += "points/" + pointToEditId;
